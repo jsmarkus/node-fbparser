@@ -1,9 +1,16 @@
 var fb2 = require('./index');
+var md = require('./markdown');
 var fs = require('fs');
 
-// var xml = fs.readFileSync('1.u.fb2', 'utf8');
-var xml = fs.readFileSync('test.u.fb2', 'utf8');
+var mdStream = fs
+    .createReadStream('bible.u.fb2')
+    .pipe(new fb2.Stream())
+    .pipe(new md());
 
-fb2.parse(xml, function (item) {
-	console.log(item);
+mdStream.on('data', function(chunk) {
+    console.log(chunk);
+});
+
+mdStream.on('end', function() {
+    console.log('end');
 });
