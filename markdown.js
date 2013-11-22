@@ -28,7 +28,7 @@ MDStream.prototype._pushTitle = function(chunk) {
     for(var i = 0; i < chunk.level + 1; i++) {
         symbols.push('#')
     }
-    this.push(symbols.join('') + markupToString(chunk.children)  + '\n');
+    this.push(symbols.join('') + ' ' + markupToString(chunk.children)  + '\n');
 }
 
 MDStream.prototype._flush = function() {
@@ -44,10 +44,10 @@ function markupToString(elements) {
             return el.value;
         }
         if(el.type === 'em') {
-            return '*' + el.text + '*';
+            return '*' + el.value + '*';
         }
         if(el.type === 'strong') {
-            return '**' + el.text + '**';
+            return '**' + el.value + '**';
         }
     })
     .join('');
