@@ -84,6 +84,9 @@ FBStream.prototype._flush = function() {
     this.push(null);
 };
 
-exports.Stream = FBStream;
+module.exports = FBStream;
+
+module.exports.toHTML = require('./html');
+module.exports.toMarkdown = require('./markdown');
 
 //-------------------------------------
