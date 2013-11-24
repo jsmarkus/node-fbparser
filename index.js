@@ -54,6 +54,8 @@ FBStream.prototype._onXMLOpen = function(tag, attrs) {
 };
 
 FBStream.prototype._onXMLText = function(value) {
+    value = normalizeWhitespace(value);
+
     if (this.tail('emphasis')) {
         return this.currentBlock.add(new markup.Emphasis(value));
     }
@@ -91,6 +93,10 @@ FBStream.prototype._flush = function() {
     this._parser.end();
     this.push(null);
 };
+
+function normalizeWhitespace(str) {
+    return str.replace(/\s+/g, ' ').replace(/^\s|\s$/g, '');
+}
 
 module.exports = FBStream;
 
