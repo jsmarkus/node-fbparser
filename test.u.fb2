@@ -1,5 +1,0 @@
-<section>
-    <title><p>Hello, <emphasis>world!</emphasis></p>
-    <p>text before <emphasis>em text</emphasis> text after</p>
-    <p>text before <strong>strong text</strong> and <emphasis>em text</emphasis> text after</p>
-</section>

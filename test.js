@@ -2,7 +2,7 @@ var fb2 = require('./index');
 var fs = require('fs');
 
 var mdStream = fs
-    .createReadStream('bible.u.fb2')
+    .createReadStream('fixtures/gribuser.fb2')
     .pipe(new fb2())
     .pipe(new fb2.toHTML());
 

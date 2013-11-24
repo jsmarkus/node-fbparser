@@ -15,20 +15,27 @@ HTMLStream.prototype._transform = function(chunk, encoding, done) {
         this._pushPara(chunk);
     } else if (chunk.type === 'h') {
         this._pushTitle(chunk);
+    } else if (chunk.type === 'v') {
+        this._pushVerse(chunk);
     }
     done(null);
 };
 
 HTMLStream.prototype._pushPara = function(chunk) {
     this.push('<p>' + markupToString(chunk.children) + '</p>\n');
-}
+};
+
+HTMLStream.prototype._pushVerse = function(chunk) {
+    this.push('<p class="verse">' + markupToString(chunk.children) + '</p>\n');
+};
+
 HTMLStream.prototype._pushTitle = function(chunk) {
     var level = chunk.level + 1;
     if (level > 6) {
         level = 6;
     }
     this.push('<h' + level + '>' + markupToString(chunk.children) + '</h' + level + '>\n');
-}
+};
 
 HTMLStream.prototype._flush = function() {
     this.push(null);
@@ -47,6 +54,5 @@ function markupToString(elements) {
         if (el.type === 'strong') {
             return '<strong>' + el.value + '</strong>';
         }
-    })
-        .join('');
-}
+    }).join('');
+};

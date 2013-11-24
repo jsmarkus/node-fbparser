@@ -14,6 +14,7 @@ function FBStream() {
     this.stack = [];
     this.sectionDepth = 0;
     this.currentBlock = null;
+    this.currentBlock = null;
 
     this._parser = new htmlparser.Parser({
         onopentag: this._onXMLOpen.bind(this),
@@ -42,10 +43,13 @@ FBStream.prototype._onXMLOpen = function(tag, attrs) {
     if (this.tail('section')) {
         this.sectionDepth++;
     }
+
     if (this.tail('title', 'p')) {
         this.currentBlock = new markup.Title(this.sectionDepth);
     } else if (this.tail('p')) {
         this.currentBlock = new markup.Paragraph();
+    } else if(this.tail('v')) {
+        this.currentBlock = new markup.Verse();
     }
 };
 
@@ -61,13 +65,17 @@ FBStream.prototype._onXMLText = function(value) {
     if (this.tail('p')) {
         return this.currentBlock.add(new markup.Text(value));
     }
+
+    if (this.tail('v')) {
+        return this.currentBlock.add(new markup.Text(value));
+    }
 };
 
 FBStream.prototype._onXMLClose = function(tag) {
     if (this.tail('section')) {
         this.sectionDepth--;
     }
-    if (this.tail('p')) {
+    if (this.tail('p') || this.tail('v')) {
         this.push(this.currentBlock);
         this.currentBlock = null;
     }
