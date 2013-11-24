@@ -4,7 +4,8 @@ var fs = require('fs');
 var mdStream = fs
     .createReadStream('fixtures/gribuser.fb2')
     .pipe(new fb2())
-    .pipe(new fb2.toHTML());
+    // .pipe(new fb2.toHTML());
+    .pipe(new fb2.toMarkdown());
 
 mdStream.on('data', function(chunk) {
     console.log(chunk);

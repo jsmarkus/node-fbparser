@@ -14,25 +14,31 @@ MDStream.prototype._transform = function(chunk, encoding, done) {
     // console.log(chunk);
     if(chunk.type === 'p') {
         this._pushPara(chunk);
+    } else if(chunk.type === 'v') {
+        this._pushVerse(chunk);
     } else if(chunk.type === 'h') {
         this._pushTitle(chunk);
     }
     done(null);
 };
 
+MDStream.prototype._pushVerse = function(chunk) {
+    this.push(markupToString(chunk.children) + '\n');
+};
+
 MDStream.prototype._pushPara = function(chunk) {
     this.push(markupToString(chunk.children) + '\n');
-}
+};
+
 MDStream.prototype._pushTitle = function(chunk) {
     var symbols = [];
     for(var i = 0; i < chunk.level + 1; i++) {
-        symbols.push('#')
+        symbols.push('#');
     }
     this.push(symbols.join('') + ' ' + markupToString(chunk.children)  + '\n');
-}
+};
 
 MDStream.prototype._flush = function() {
-    // this._parser.end();
     this.push(null);
 };
 
