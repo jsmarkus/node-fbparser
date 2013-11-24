@@ -6,7 +6,7 @@ var fs = require('fs');
 var mdStream = fs
     .createReadStream('bible.u.fb2')
     .pipe(new fb2.Stream())
-    .pipe(new html());
+    .pipe(new md());
 
 mdStream.on('data', function(chunk) {
     console.log(chunk);
