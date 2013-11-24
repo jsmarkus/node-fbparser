@@ -46,7 +46,7 @@ module.exports = MDStream;
 
 function markupToString(elements) {
     return elements.map(function (el) {
-        if(el.type === 'text') {
+        if(el.type === 'text' || el.type === 'style') {
             return el.value;
         }
         if(el.type === 'em') {

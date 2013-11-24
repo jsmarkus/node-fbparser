@@ -56,6 +56,7 @@ FBStream.prototype._onXMLOpen = function(tag, attrs) {
 FBStream.prototype._onXMLText = function(value) {
     value = normalizeWhitespace(value);
 
+    //inline elements
     if (this.tail('emphasis')) {
         return this.currentBlock.add(new markup.Emphasis(value));
     }
@@ -63,6 +64,13 @@ FBStream.prototype._onXMLText = function(value) {
     if (this.tail('strong')) {
         return this.currentBlock.add(new markup.Strong(value));
     }
+
+    if (this.tail('style')) {
+        return this.currentBlock.add(new markup.Style(value));
+    }
+
+    //block elements
+    value = trim(value);
 
     if (this.tail('p')) {
         return this.currentBlock.add(new markup.Text(value));
@@ -95,7 +103,11 @@ FBStream.prototype._flush = function() {
 };
 
 function normalizeWhitespace(str) {
-    return str.replace(/\s+/g, ' ').replace(/^\s|\s$/g, '');
+    return str.replace(/\s+/g, ' ');
+}
+
+function trim(str) {
+    return str.replace(/^\s|\s$/g, '');
 }
 
 module.exports = FBStream;

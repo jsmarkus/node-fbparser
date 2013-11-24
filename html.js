@@ -54,5 +54,8 @@ function markupToString(elements) {
         if (el.type === 'strong') {
             return '<strong>' + el.value + '</strong>';
         }
+        if (el.type === 'style') {
+            return '<span>' + el.value + '</span>';
+        }
     }).join('');
 };

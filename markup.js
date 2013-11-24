@@ -22,6 +22,13 @@ function Strong(value) {
 }
 
 //------------------------------------------
+
+function Style(value) {
+    this.type = 'style';
+    this.value = value;
+}
+
+//------------------------------------------
 //------------------------------------------
 //------------------------------------------
 //------------------------------------------
@@ -70,5 +77,6 @@ module.exports = {
     Emphasis: Emphasis,
     Title: Title,
     Strong: Strong,
+    Style: Style,
     Verse: Verse
 };
