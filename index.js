@@ -48,6 +48,8 @@ FBStream.prototype._onXMLOpen = function(tag, attrs) {
         this.currentBlock = new markup.Title(this.sectionDepth);
     } else if (this.tail('p')) {
         this.currentBlock = new markup.Paragraph();
+    } else if (this.tail('text-author')) {
+        this.currentBlock = new markup.TextAuthor();
     } else if(this.tail('v')) {
         this.currentBlock = new markup.Verse();
     }
@@ -76,6 +78,10 @@ FBStream.prototype._onXMLText = function(value) {
         return this.currentBlock.add(new markup.Text(value));
     }
 
+    if (this.tail('text-author')) {
+        return this.currentBlock.add(new markup.Text(value));
+    }
+
     if (this.tail('v')) {
         return this.currentBlock.add(new markup.Text(value));
     }
@@ -85,7 +91,7 @@ FBStream.prototype._onXMLClose = function(tag) {
     if (this.tail('section')) {
         this.sectionDepth--;
     }
-    if (this.tail('p') || this.tail('v')) {
+    if (this.tail('p') || this.tail('v') || this.tail('text-author')) {
         this.push(this.currentBlock);
         this.currentBlock = null;
     }

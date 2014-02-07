@@ -51,6 +51,14 @@ function Paragraph() {
 util.inherits(Paragraph, Block);
 
 //------------------------------------------
+function TextAuthor() {
+    this.type = 'text-author';
+    Block.call(this);
+}
+
+util.inherits(TextAuthor, Block);
+
+//------------------------------------------
 
 function Title(level) {
     this.type = 'h';
@@ -74,6 +82,7 @@ util.inherits(Verse, Block);
 module.exports = {
     Text: Text,
     Paragraph: Paragraph,
+    TextAuthor: TextAuthor,
     Emphasis: Emphasis,
     Title: Title,
     Strong: Strong,

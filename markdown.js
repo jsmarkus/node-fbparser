@@ -11,23 +11,24 @@ function MDStream() {
 util.inherits(MDStream, stream.Transform);
 
 MDStream.prototype._transform = function(chunk, encoding, done) {
-    // console.log(chunk);
     if(chunk.type === 'p') {
         this._pushPara(chunk);
     } else if(chunk.type === 'v') {
         this._pushVerse(chunk);
     } else if(chunk.type === 'h') {
         this._pushTitle(chunk);
+    } else if(chunk.type === 'text-author') {
+        this._pushPara(chunk); //really, it is just a normal paragraph
     }
     done(null);
 };
 
 MDStream.prototype._pushVerse = function(chunk) {
-    this.push(markupToString(chunk.children) + '\n');
+    this.push(markupToString(chunk.children) + '\n\n');
 };
 
 MDStream.prototype._pushPara = function(chunk) {
-    this.push(markupToString(chunk.children) + '\n');
+    this.push(markupToString(chunk.children) + '\n\n');
 };
 
 MDStream.prototype._pushTitle = function(chunk) {
@@ -35,7 +36,7 @@ MDStream.prototype._pushTitle = function(chunk) {
     for(var i = 0; i < chunk.level + 1; i++) {
         symbols.push('#');
     }
-    this.push(symbols.join('') + ' ' + markupToString(chunk.children)  + '\n');
+    this.push(symbols.join('') + ' ' + markupToString(chunk.children)  + '\n\n');
 };
 
 MDStream.prototype._flush = function() {
