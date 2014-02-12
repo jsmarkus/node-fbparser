@@ -59,6 +59,14 @@ function TextAuthor() {
 util.inherits(TextAuthor, Block);
 
 //------------------------------------------
+function Subtitle() {
+    this.type = 'subtitle';
+    Block.call(this);
+}
+
+util.inherits(Subtitle, Block);
+
+//------------------------------------------
 
 function Title(level) {
     this.type = 'h';
